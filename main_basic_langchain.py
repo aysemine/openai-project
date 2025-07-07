@@ -3,14 +3,9 @@ from langchain_openai import ChatOpenAI
 from langchain.tools import tool
 from langgraph.prebuilt import create_react_agent
 from dotenv import load_dotenv
-
+from tools import calculator
 load_dotenv()
 
-@tool
-def calculator(a: float, b:float) -> str:
-    """Useful for performing basic arithmetic calculations with numbers"""
-    print("Tool has been called.")
-    return f"The sum of {a} and {b} is {a+b}"
 
 def main():
     model = ChatOpenAI(temperature=0)
@@ -23,7 +18,7 @@ def main():
     while True:
         user_input = input("\nYou: ").strip()
 
-        if user_input == 'quit':
+        if user_input.lower() == 'quit':
             break
 
         print("\nAssitant: ", end="") ## this for assistant text and the assistant response to be in same line
@@ -37,6 +32,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
 
     
