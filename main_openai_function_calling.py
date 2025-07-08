@@ -43,6 +43,7 @@ messages = [
     {"role": "user", "content": "whats the weather like in Paris today?"},
 ]
 
+"""chat started with openai api"""
 completion = client.chat.completions.create(
     model = "gpt-4o",
     messages= messages,
@@ -51,6 +52,7 @@ completion = client.chat.completions.create(
 
 completion.model_dump()
 
+"""function calling"""
 def call_function(name, args):
     if name == "get_weather":
         return get_weather(**args)
@@ -74,6 +76,7 @@ class WeatherResponse(BaseModel):
         description="A natural language response to the user's questipn."
     )
 
+"""converts openai response format to python base model"""
 completion_2 = client.beta.chat.completions.parse(
     model="gpt-4o",
     messages=messages,
