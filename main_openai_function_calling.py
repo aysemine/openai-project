@@ -15,6 +15,7 @@ def get_weather(latitude, longitude):
     data = requests.json()
     return data["current"]
 
+"""tools declared"""
 tools = [
     {
         "type": "function",
@@ -49,3 +50,37 @@ completion = client.chat.completions.create(
 )
 
 completion.model_dump()
+
+def call_function(name, args):
+    if name == "get_weather":
+        return get_weather(**args)
+
+for tool_call in completion.choices[0].message.tool_calls:
+    name = tool_call.function.name
+    args = json.loads(tool_call.function.arguments)
+    messages.append(completion.choices[0].message)
+
+    result = call_function(name, args)
+    messages.append(
+        {"role": "tool", "tool_call_id": tool_call.id, "content": json.dumps(result)}
+    )
+
+
+class WeatherResponse(BaseModel):
+    temperature: float = Field(
+        description="The current temperature in celcius for given location."
+    )
+    response: str = Field(
+        description="A natural language response to the user's questipn."
+    )
+
+completion_2 = client.beta.chat.completions.parse(
+    model="gpt-4o",
+    messages=messages,
+    tools=tools,
+    response_format=WeatherResponse,
+)
+
+final_response = completion_2.choices[0].message.parsed
+final_response.temperature
+final_response.response
