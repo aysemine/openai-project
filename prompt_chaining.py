@@ -179,7 +179,7 @@ else:
     print("This doesn't appear to be a calendar event request.")
 
 # --------------------------------------------------------------
-# Step 3: Test with new event
+# Test with new event
 # --------------------------------------------------------------
 
 new_event_input = "Let's schedule a team meeting next Tuesday at 2pm with Alice and Bob"
@@ -188,7 +188,7 @@ if result:
     print(f"Response: {result.confirmation_message}")
 
 # --------------------------------------------------------------
-# Step 4: Test with modify event
+# Test with modify event
 # --------------------------------------------------------------
 
 modify_event_input = (
@@ -199,7 +199,7 @@ if result:
     print(f"Response: {result.confirmation_message}")
 
 # --------------------------------------------------------------
-# Step 5: Test with invalid request
+# Test with invalid request
 # --------------------------------------------------------------
 
 invalid_input = "What's the weather like today?"
